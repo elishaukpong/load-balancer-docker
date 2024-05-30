@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  proxy:
+    container_name: proxy
+    image: 'lb-proxy'
+    build:
+      context: ./proxy
+    ports:
+      - "80:80"
+    volumes:
+      - "./proxy/default.conf:/etc/nginx/conf.d/default.conf"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
