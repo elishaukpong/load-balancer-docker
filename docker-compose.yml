@@ -12,7 +12,10 @@ services:
       - "${PROXY_PORT}:80"
     restart: unless-stopped
     volumes:
-      - "./proxy/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/proxy/default.conf:/etc/nginx/conf.d/default.conf"
+    depends_on:
+      - nginx-srv-1
+      - nginx-srv-2
     networks:
       - proxy-lb
 
@@ -26,6 +29,8 @@ services:
     ports:
       - "${SERVICE_1_PORT}:80"
     restart: unless-stopped
+    depends_on:
+      - php-srv-1
     volumes:
       - "./nginx/nginx-srv-1/default.conf:/etc/nginx/conf.d/default.conf"
     networks:
@@ -41,6 +46,8 @@ services:
     ports:
       - "${SERVICE_2_PORT}}:80"
     restart: unless-stopped
+    depends_on:
+      - php-srv-2
     volumes:
       - "./nginx/nginx-srv-1/default.conf:/etc/nginx/conf.d/default.conf"
     networks:
@@ -51,6 +58,8 @@ services:
     image: 'php-srv-1'
     build:
       context: ./services/php-srv-1
+    ports:
+      - "${PHP_1_PORT}:9000"
     restart: unless-stopped
     volumes:
       - ./services/php-srv-1/php.ini:/usr/local/etc/php/conf.d/local.ini
@@ -64,6 +73,8 @@ services:
     image: 'php-srv-2'
     build:
       context: ./services/php-srv-2
+    ports:
+      - "${PHP_2_PORT}:9000"
     restart: unless-stopped
     volumes:
       - ./services/php-srv-2/php.ini:/usr/local/etc/php/conf.d/local.ini
