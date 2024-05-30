@@ -17,7 +17,7 @@ services:
     container_name: php-srv-1
     image: 'php-srv-1'
     build:
-      context: ./services
+      context: ./services/php-srv-1
     volumes:
       - ./services/php-srv-1/php.ini:/usr/local/etc/php/conf.d/local.ini
     extra_hosts:
@@ -27,7 +27,7 @@ services:
     container_name: php-srv-2
     image: 'php-srv-2'
     build:
-      context: ./services
+      context: ./services/php-srv-2
     volumes:
       - ./services/php-srv-2/php.ini:/usr/local/etc/php/conf.d/local.ini
     extra_hosts:
