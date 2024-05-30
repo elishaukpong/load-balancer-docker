@@ -12,3 +12,23 @@ services:
       - "./proxy/default.conf:/etc/nginx/conf.d/default.conf"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  php-srv-1:
+    container_name: php-srv-1
+    image: 'php-srv-1'
+    build:
+      context: ./services
+    volumes:
+      - ./services/php-srv-1/php.ini:/usr/local/etc/php/conf.d/local.ini
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  php-srv-2:
+    container_name: php-srv-2
+    image: 'php-srv-2'
+    build:
+      context: ./services
+    volumes:
+      - ./services/php-srv-2/php.ini:/usr/local/etc/php/conf.d/local.ini
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
