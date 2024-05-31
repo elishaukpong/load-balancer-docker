@@ -1,5 +1,6 @@
 nginx/nginx-srv-1/logs
 nginx/nginx-srv-2/logs
+nginx/nginx-srv-3/logs
 nginx/proxy/logs
 .idea
 .env

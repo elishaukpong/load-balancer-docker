@@ -52,8 +52,27 @@ services:
     depends_on:
       - php-srv-2
     volumes:
-      - "./nginx/nginx-srv-1/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/nginx-srv-2/default.conf:/etc/nginx/conf.d/default.conf"
       - "./nginx/nginx-srv-2/logs/:/var/log/nginx"
+      - "./app:/var/www/html"
+    networks:
+      - proxy-lb
+
+  nginx-srv-3:
+    env_file:
+      - .env
+    container_name: nginx-srv-3
+    image: 'lb-nginx-srv-3'
+    build:
+      context: ./nginx/nginx-srv-3
+    ports:
+      - "${SERVICE_3_PORT}:80"
+    restart: unless-stopped
+    depends_on:
+      - php-srv-2
+    volumes:
+      - "./nginx/nginx-srv-3/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/nginx-srv-3/logs/:/var/log/nginx"
       - "./app:/var/www/html"
     networks:
       - proxy-lb
@@ -85,6 +104,22 @@ services:
     restart: unless-stopped
     volumes:
       - ./services/php-srv-2/php.ini:/usr/local/etc/php/conf.d/local.ini
+      - "./app:/var/www/html"
+    networks:
+      - proxy-lb
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  php-srv-3:
+    container_name: php-srv-3
+    image: 'php-srv-3'
+    build:
+      context: ./services/php-srv-3
+    ports:
+      - "${PHP_3_PORT}:9000"
+    restart: unless-stopped
+    volumes:
+      - ./services/php-srv-3/php.ini:/usr/local/etc/php/conf.d/local.ini
       - "./app:/var/www/html"
     networks:
       - proxy-lb
