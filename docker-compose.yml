@@ -17,6 +17,7 @@ services:
     depends_on:
       - nginx-srv-1
       - nginx-srv-2
+      - nginx-srv-3
     networks:
       - proxy-lb
 
@@ -69,7 +70,7 @@ services:
       - "${SERVICE_3_PORT}:80"
     restart: unless-stopped
     depends_on:
-      - php-srv-2
+      - php-srv-3
     volumes:
       - "./nginx/nginx-srv-3/default.conf:/etc/nginx/conf.d/default.conf"
       - "./nginx/nginx-srv-3/logs/:/var/log/nginx"
